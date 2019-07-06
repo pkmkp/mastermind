@@ -13,16 +13,14 @@
 ##### setup----
 library(tidyverse)
 setup <- function(){
-globalenv(
-blue <- b <- 1
-green <- g <- 2
-orange <- o <- 3
-pink <- p <- 4
-red <- r <- 5
-yellow <- y <- 6  
-try <- 1
-
-mastermind <- function(A,B,C,D,attempt=try){
+blue <<- b <<- 1
+green <<- g <<- 2
+orange <<- o <<- 3
+pink <<- p <<- 4
+red <<- r <<- 5
+yellow <<- y <<- 6
+assign(x="try",value=1,envir = .GlobalEnv)
+assign(x="mastermind", value = function(A,B,C,D,attempt=try){
   guess <- c(A,B,C,D)
   guess.i <- guess
   i <- attempt
@@ -95,8 +93,8 @@ mastermind <- function(A,B,C,D,attempt=try){
   }
   try <<- try + 1
   return(plot_game())
-}
-evaluate_color_j <-  function(color,guess,code){#provides answer for each color, modifying code.i and guess.i
+},envir = .GlobalEnv)
+assign(x="evaluate_color_j", value =function(color,guess,code){#provides answer for each color, modifying code.i and guess.i
   code.j <- code
   code.j[which((code.j==color)==FALSE)] <- 777
   code.j[which((code.j==guess)==TRUE)] <- 0
@@ -106,8 +104,8 @@ evaluate_color_j <-  function(color,guess,code){#provides answer for each color,
     answer.i <- answer.i[c(seq(1,length(answer.i))-1)]
   answer.i <- as.vector(answer.i)
   return(answer.i)
-}  
-plot_game <- function(df=guess.df){
+},envir = .GlobalEnv)
+assign(x="plot_game", value =function(df=guess.df){
   df <- df %>% filter(is.na(val)==FALSE)
   ggplot(data=df, aes(x=loc_x,y=i,color=as.factor(val)))+
     geom_point(show.legend = FALSE)+
@@ -118,12 +116,11 @@ plot_game <- function(df=guess.df){
           axis.text.y=element_blank())+
     labs(x=NULL,y=NULL)+
     scale_color_manual(values=game_colors)
-}
-game_colors <- c("1"="blue","2"="green","3"="orange","4"="pink","5"="red","6"="yellow","8"="white","9"="black")
-rules <- function(){
+},envir = .GlobalEnv)
+assign(x="game_colors", value =c("1"="blue","2"="green","3"="orange","4"="pink","5"="red","6"="yellow","8"="white","9"="black"),envir = .GlobalEnv)
+assign(x="rules", value = function(){
   print("plbttttt LOSER!")
-}
-)#end globalenv
+},envir = .GlobalEnv)
 
 
 print("you can ignore all of that^^^^          
@@ -138,5 +135,4 @@ print("you can ignore all of that^^^^
 if you want a reminder as to the rules, just type rules()          
   ~~~~~~~~~~~~good luck!~~~~~~~~~~~~~~")
 }
-
 
